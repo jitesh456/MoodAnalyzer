@@ -1,14 +1,18 @@
 package com.moodanalyzer;
 
 import com.moodanalyzerexception.MoodAnalyzerException;
+import com.sun.tools.javac.code.Attribute;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLOutput;
+
 public class MoodAnalyzerTest {
 
-
     @Test
-    public void givenHappyMood() {
+    public void givenHappyMood_WhenProper_ReturnMood() {
         try {
             MoodAnalyzer analyzeHappyMood = new MoodAnalyzer("This is happy mood");
             String mood = analyzeHappyMood.analyzeMood();
@@ -48,10 +52,47 @@ public class MoodAnalyzerTest {
 
         try {
             MoodAnalyzer analyzeForEmpty = new MoodAnalyzer("");
+
         } catch (MoodAnalyzerException e) {
-            Assert.assertEquals(MoodAnalyzerException.ExceptionType.IS_NULL_STRING,e.type);
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.IS_NULL_STRING, e.type);
         }
 
     }
 
+    @Test
+    public void givenMood_WhenProper_ReturnObject() {
+        MoodAnalyzer mood = MoodAnalyzerFactory.createAnalyseMood("this is happy mood", "com.moodanalyzer.MoodAnalyzer",String.class);
+        Assert.assertEquals("happy", mood.analyzeMood());
+    }
+
+    @Test
+    public void givenMood_WhenEqual_ReturnObject() {
+        try {
+            MoodAnalyzer mood = MoodAnalyzerFactory.createAnalyseMood();
+            Assert.assertEquals(new MoodAnalyzer(), mood);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenClassName_WhenNotProper_ReturnException() {
+        try {
+            MoodAnalyzer mood = MoodAnalyzerFactory.createAnalyseMood("this is happy mood", "com.moodanalyzer.moodAnalyzer",String.class);
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.CLASS_NOT_FOUND, e.type);
+        }
+
+    }
+
+    @Test
+    public void givenConstructorName_WhenNotProper_ReturnException() {
+        try {
+            MoodAnalyzer mood = MoodAnalyzerFactory.createAnalyseMood("this is happy mood", "com.moodanalyzer.MoodAnalyzer",Integer.class);
+        }catch (MoodAnalyzerException e)
+        {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD,e.type);
+        }
+    }
 }
+
