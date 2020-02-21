@@ -1,14 +1,8 @@
 package com.moodanalyzer;
 
 import com.moodanalyzerexception.MoodAnalyzerException;
-import com.sun.tools.javac.code.Attribute;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLOutput;
-
 public class MoodAnalyzerTest {
 
     @Test
@@ -32,9 +26,7 @@ public class MoodAnalyzerTest {
         } catch (MoodAnalyzerException e) {
             e.printStackTrace();
         }
-
     }
-
     @Test
     public void givenMood_WhenNull_ReturnCustomException() {
 
@@ -95,14 +87,6 @@ public class MoodAnalyzerTest {
 
     }
 
-    @Test
-    public void givenConstructorName_WhenNotProperUsingDefaultConstructor_ReturnException() {
-        try {
-            MoodAnalyzer mood = MoodAnalyzerFactory.createAnalyseMood("this is happy mood", "", Integer.class);
-        } catch (MoodAnalyzerException e) {
-            Assert.assertEquals(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, e.type);
-        }
-    }
 
     @Test
     public void givenConstructorName_WhenNotProperUsingParametrizeConstructor_ReturnException() {
@@ -117,7 +101,6 @@ public class MoodAnalyzerTest {
     public void givenObject_WhenEqualUsingParametrizeConstructor_ReturnObject() {
         MoodAnalyzer factoryMood = MoodAnalyzerFactory.createAnalyseMood("this is happy mood", "com.moodanalyzer.MoodAnalyzer", String.class);
         Assert.assertEquals(factoryMood, new MoodAnalyzer("this is happy mood"));
-
     }
 
 }
