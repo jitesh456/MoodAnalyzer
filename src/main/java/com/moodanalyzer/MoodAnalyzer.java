@@ -7,7 +7,7 @@ public class MoodAnalyzer {
     private String message;
 
     public MoodAnalyzer() {
-            this.message="default";
+        this.message = "default";
     }
 
 
@@ -32,13 +32,13 @@ public class MoodAnalyzer {
         }
     }
 
-   /* public boolean equals(Object another) {
-        if (this.message.equals(((MoodAnalyzer)another).message))
-            return true;
-        return false;
-    }*/
+    /* public boolean equals(Object another) {
+         if (this.message.equals(((MoodAnalyzer)another).message))
+             return true;
+         return false;
+     }*/
     public boolean equals(Object another) {
-        if (this.message.equals(((MoodAnalyzer)another).message))
+        if (this.message.equals(((MoodAnalyzer) another).message))
             return true;
         return false;
     }

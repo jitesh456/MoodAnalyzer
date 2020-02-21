@@ -3,6 +3,7 @@ package com.moodanalyzer;
 import com.moodanalyzerexception.MoodAnalyzerException;
 import org.junit.Assert;
 import org.junit.Test;
+
 public class MoodAnalyzerTest {
 
     @Test
@@ -27,6 +28,7 @@ public class MoodAnalyzerTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void givenMood_WhenNull_ReturnCustomException() {
 
@@ -103,5 +105,45 @@ public class MoodAnalyzerTest {
         Assert.assertEquals(factoryMood, new MoodAnalyzer("this is happy mood"));
     }
 
+    @Test
+    public void givenMethod_WhenProper_ReturnMessage_() {
+        Assert.assertEquals("happy", MoodAnalyzerFactory.invokeRuntimeMethod("this is happy mood", "analyzeMood"));
+    }
+
+    @Test
+    public void giveMethodName_WhenNotProper_ReturnException() {
+        try {
+            MoodAnalyzerFactory.invokeRuntimeMethod("this is happy mood", "analyzeood");
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, e.type);
+        }
+
+    }
+
+    @Test
+    public void givenFieldName_WhenProper_ReturnMessage() {
+        String Mood = MoodAnalyzerFactory.setFieldValue("this is happy mood", "message");
+        Assert.assertEquals("happy", Mood);
+
+    }
+
+    @Test
+    public void givenFieldName_WhenNotProper_ReturnException() {
+        try {
+            MoodAnalyzerFactory.setFieldValue("this is happy mood", "Message");
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.NO_SUCH_FIELD, e.type);
+        }
+
+    }
+
+    @Test
+    public void givenFieldValue_WhenNull_ReturnException() {
+        try {
+            MoodAnalyzerFactory.setFieldValue(null, "message");
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.FIELD_INVOCATION_ISSUE, e.type);
+        }
+    }
 }
 
